@@ -1,0 +1,42 @@
+[
+    {
+        "contract_type": "Employment",
+        "description": "Defines the rights, responsibilities, role, and compensation between an employee and the company."
+    },
+    {
+        "contract_type": "Lease",
+        "description": "Regulates the terms under which a business rents property or equipment for operational use."
+    },
+    {
+        "contract_type": "Supplier",
+        "description": "Establishes the conditions for the delivery, quality, pricing, and timelines of goods or services."
+    },
+    {
+        "contract_type": "Franchise",
+        "description": "Allows the use of a proven business model, brand, and operating system for scalable expansion."
+    },
+    {
+        "contract_type": "Maintenance",
+        "description": "Ensures the ongoing upkeep and operational reliability of equipment, systems, or facilities."
+    },
+    {
+        "contract_type": "Financial",
+        "description": "Governs financing, investment, lending, or other financial obligations between parties."
+    },
+    {
+        "contract_type": "B2B",
+        "description": "Defines the legal and commercial framework of cooperation between two businesses."
+    },
+    {
+        "contract_type": "Marketing",
+        "description": "Sets the terms for providing marketing services, campaigns, or promotional activities."
+    },
+    {
+        "contract_type": "IT",
+        "description": "Covers the development, operation, support, or licensing of information technology systems."
+    },
+    {
+        "contract_type": "Other",
+        "description": "Used for contractual arrangements that do not fall into standard agreement categories."
+    }
+]

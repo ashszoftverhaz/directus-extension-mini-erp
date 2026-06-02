@@ -1,0 +1,48 @@
+services:
+  database:
+    image: postgis/postgis:16-3.5-alpine
+    container_name: mini-erp-postgres
+    environment:
+      POSTGRES_USER: 'perfect'
+      POSTGRES_PASSWORD: 'perfect'
+      POSTGRES_DB: 'perfect'
+    ports:
+      - '2345:5432'
+    volumes:
+      - perfect_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '--host=localhost', '--username=perfect']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+
+  directus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8055:8055
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      # Mount extensions for live development
+      - ./extensions:/directus/extensions:rw
+    environment:
+      KEY: '10a5fee9-d590-488d-a97c-94d9c82f7449'
+      SECRET: '56fe9f64-72d3-47d8-9339-f6c7fcba1f64'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'password'
+      DB_CLIENT: 'pg'
+      DB_HOST: 'mini-erp-postgres'
+      DB_PORT: '5432'
+      DB_DATABASE: 'perfect'
+      DB_USER: 'perfect'
+      DB_PASSWORD: 'perfect'
+      DB_SSL: 'false'
+      PUBLIC_URL: 'http://localhost:8055'
+
+volumes:
+  perfect_postgres_data:

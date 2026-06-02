@@ -1,0 +1,59 @@
+/**
+ * ERP module shared typography
+ * Keep these classes prefixed (`erp-`) to avoid collisions with Directus core styles
+ */
+
+.erp-form-section-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-block: 12px;
+  max-inline-size: calc(var(--form-column-max-width) * 2 + var(--theme--form--column-gap));
+  margin-top: 32px;
+  margin-bottom: 16px;
+  color: var(--theme--text-color);
+  background-color: var(--theme--background);
+  border-block-end: var(--theme--border-width) solid var(--theme--border-color-subdued);
+}
+
+.erp-no-top-margin {
+  margin-top: 0;
+}
+
+.erp-title-display-md {
+  margin: 0;
+  font-size: 24px;
+  font-weight: var(--theme--fonts--display--font-weight);
+  font-family: var(--theme--fonts--display--font-family);
+}
+
+.erp-form-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.erp-title-prepend {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.erp-upload-form {
+  background: var(--theme--background);
+  padding: 20px;
+  padding-top: 0;
+}
+
+.erp-notices-wrapper {
+  margin-bottom: 16px;
+}
+
+/* Hide the edit-dot marker injected by Directus VForm in edit mode to match Content page appearance */
+.edit-dot {
+  display: none !important;
+}
+
+.description-dot {
+  display: none !important;
+}

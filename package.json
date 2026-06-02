@@ -1,0 +1,88 @@
+{
+  "name": "directus-extension-mini-erp",
+  "displayName": "Mini ERP",
+  "description": "Mini ERP bundle for Directus with UI.",
+  "icon": "warehouse",
+  "version": "1.0.0",
+  "license": "GPL-3.0",
+  "author": {
+    "name": "ASH Szoftverház Kft.",
+    "email": "info@ashszoftverhaz.hu",
+    "url": "https://www.ashszoftverhaz.hu/"
+  },
+  "keywords": [
+    "directus",
+    "directus-extension",
+    "directus-extension-bundle",
+    "directus-marketplace",
+    "erp",
+    "finance"
+  ],
+  "homepage": "https://github.com/ashszoftverhaz/directus-extension-mini-erp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashszoftverhaz/directus-extension-mini-erp"
+  },
+  "bugs": {
+    "url": "https://github.com/ashszoftverhaz/directus-extension-mini-erp/issues"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "directus:extension": {
+    "type": "bundle",
+    "path": {
+      "app": "dist/app.js",
+      "api": "dist/api.js"
+    },
+    "entries": [
+      {
+        "type": "module",
+        "name": "erp-module",
+        "source": "src/module/index.ts"
+      },
+      {
+        "type": "hook",
+        "name": "erp-bootstrap",
+        "source": "src/hook/index.ts"
+      },
+      {
+        "type": "endpoint",
+        "name": "transactions",
+        "source": "src/endpoints/transactions/index.ts"
+      },
+      {
+        "type": "endpoint",
+        "name": "erp-pnl",
+        "source": "src/endpoints/pnl/index.ts"
+      },
+      {
+        "type": "interface",
+        "name": "formatted-number",
+        "source": "src/interfaces/formatted-number/index.ts"
+      }
+    ],
+    "host": "^10.10.0"
+  },
+  "scripts": {
+    "build": "directus-extension build",
+    "dev": "directus-extension build -w --no-minify",
+    "dev:sync": "node dev-sync.js",
+    "dev:watch": "concurrently \"npm run dev\" \"npm run dev:sync\" --names \"BUILD,SYNC\" --prefix-colors \"blue,green\"",
+    "link": "directus-extension link",
+    "validate": "directus-extension validate",
+    "add": "directus-extension add",
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "@directus/extensions-sdk": "17.0.4",
+    "@types/jest": "^30.0.0",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.26",
+    "@types/node": "^25.0.3",
+    "concurrently": "^9.1.2",
+    "jest": "^30.0.2",
+    "ts-jest": "^29.4.0"
+  }
+}

@@ -1,2 +1,2 @@
-# directus-extension-mini-erp
+# Mini ERP
 Mini ERP bundle for Directus with UI.

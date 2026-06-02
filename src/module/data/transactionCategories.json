@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Procurement",
+        "description": "This is for procurement expenses only."
+    },
+    {
+        "name": "Marketing",
+        "description": "This covers all marketing-related costs."
+    },
+    {
+        "name": "Research and Development",
+        "description": "Expenses associated with innovation and product development."
+    },
+    {
+        "name": "Human Resources",
+        "description": "All costs related to hiring and employee welfare."
+    },
+    {
+        "name": "IT Infrastructure",
+        "description": "Expenses for hardware, software, and IT services."
+    },
+    {
+        "name": "Sales",
+        "description": "Costs incurred in the sales process, including commissions."
+    },
+    {
+        "name": "Transportation",
+        "description": "Expenses for shipping and logistics."
+    },
+    {
+        "name": "Facility Maintenance",
+        "description": "Costs for maintaining office and operational facilities."
+    },
+    {
+        "name": "Utilities",
+        "description": "Expenses for electricity, water, and other utilities."
+    }
+]
