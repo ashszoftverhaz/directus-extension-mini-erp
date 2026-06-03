@@ -1,5 +1,5 @@
 {
-  "name": "directus-extension-mini-erp",
+  "name": "@ashszoftverhaz/directus-extension-mini-erp",
   "displayName": "Mini ERP",
   "description": "Mini ERP bundle for Directus with UI.",
   "icon": "warehouse",
