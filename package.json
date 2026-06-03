@@ -63,7 +63,7 @@
         "source": "src/interfaces/formatted-number/index.ts"
       }
     ],
-    "host": "^10.10.0"
+    "host": "^11.0.0"
   },
   "scripts": {
     "build": "directus-extension build",
