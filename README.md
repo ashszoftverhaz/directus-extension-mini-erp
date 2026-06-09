@@ -11,6 +11,31 @@ Directus ERP is designed for businesses that need a customizable internal system
 By using Directus as the core platform, the system combines a powerful admin interface, structured data management, role-based access control, financial transactions and reports, with API connectivity in one solution.
  
 It can be adapted to different business models, internal processes, and operational workflows.
+
+## Installation
+
+### Via Directus Marketplace
+
+1. Go to **Settings → Extensions**
+2. Search for "Mini ERP"
+3. Click **Install**
+
+### Manual Installation
+
+```bash
+npm install @ashszoftverhaz/directus-extension-mini-erp
+```
+
+Or copy the `dist` folder to your Directus extensions directory:
+```
+extensions/directus-extension-mini-erp/
+├── dist/
+│   └── api.js
+│   └── app.js
+└── package.json
+```
+
+Restart Directus after installation.
  
 ## Business Value
  
