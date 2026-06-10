@@ -19,6 +19,14 @@
             <p class="attention-required">Attention required!</p>
           </VCardText>
         </div>
+        <div v-else class="bottom-line-success">
+          <VCardText>
+            <p>Steps 5/5</p>
+          </VCardText>
+          <VCardText>
+            <p class="attention-required-success">You completed the wizard! ✓</p>
+          </VCardText>
+        </div>
       </VCard>
 
       <VCard>
@@ -66,6 +74,7 @@ import SettingsBaseCountryDrawer from '../components/settings/SettingsBaseCountr
 import SettingsBaseLocationDrawer from '../components/settings/SettingsBaseLocationDrawer.vue';
 import { parseLocationSettingValue } from '../utils/settingsFormat';
 import { useApi } from '@directus/extensions-sdk';
+import { useRoute } from 'vue-router';
 
 const api = useApi();
 const wizardOpen = ref(false);
@@ -75,6 +84,8 @@ const locationDrawerOpen = ref(false);
 const reopenWizardAfterDrawerClose = ref(false);
 const wizardResumeMode = ref(false);
 const showBottomLine = ref(false);
+
+const route = useRoute();
 
 const REQUIRED_SETTING_KEYS = ['base_currency', 'base_country', 'base_location'] as const;
 
@@ -91,6 +102,14 @@ watch(anyDrawerOpen, (isAnyOpen, wasAnyOpen) => {
   if (wasAnyOpen && reopenWizardAfterDrawerClose.value) {
     wizardOpen.value = true;
     reopenWizardAfterDrawerClose.value = false;
+  }
+});
+
+watch(wizardOpen, (isOpen, wasOpen) => {
+  if (wasOpen && !isOpen && !wizardResumeMode.value) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('wizard');
+    window.location.replace(url.toString());
   }
 });
 
@@ -152,6 +171,11 @@ async function refreshBottomLineVisibility(): Promise<void> {
 
 onMounted(() => {
   void refreshBottomLineVisibility();
+
+  const wizard = route.query.wizard as string | undefined;
+  if (wizard === 'open') {
+    openWizardFromCard();
+  }
 });
 
 const form = reactive({
@@ -213,8 +237,20 @@ async function locationDisplayFromValue(val: string): Promise<string> {
   font-size: 14px;
 }
 
+.bottom-line-success {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: green;
+}
+
 .attention-required {
   color: red;
+  font-weight: 700;
+}
+
+.attention-required-success {
+  color: green;
   font-weight: 700;
 }
 </style>

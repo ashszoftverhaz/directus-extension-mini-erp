@@ -18,7 +18,7 @@
     <template #actions>
       <CreateItemActionsMenu
         :saving="saving"
-        :can-submit="canSubmit"
+        :can-submit="canSave"
         @save-primary="saveAndClose"
         @save-and-stay="saveAndStay"
         @save-and-create-new="saveAndCreateNew"
@@ -176,6 +176,14 @@ const {
   successMessage: 'Income saved.',
 });
 
+const canSave = computed(() => {
+  if (!canSubmit.value) return false;
+  if (!isPaid.value || (formData.value.payment_date && formData.value.base_currency_fx_rate)) {
+    return true;
+  }
+  return false;
+});
+
 onMounted(async () => {
   const locationId = route.query.location as string | undefined;
   if (!locationId) {
@@ -283,7 +291,7 @@ watch(
     }
 
     if (paymentDate && currency) {
-      try {console.log('Fetching exchange rate for', paymentDate, currency);
+      try {
         const rate = await getExchangeRate(api, new Date(paymentDate as string), currency as string);
         formData.value.base_currency_fx_rate = rate;
       } catch (error) {

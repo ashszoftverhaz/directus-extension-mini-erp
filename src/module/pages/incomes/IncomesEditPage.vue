@@ -412,7 +412,7 @@ onMounted(async () => {
 watch(
   () => [formData.value.payment_date, formData.value.currency],
   async ([paymentDate, currency], [prevPaymentDate, prevCurrency]) => {
-    if (paymentDate === prevPaymentDate && currency === prevCurrency) {
+    if ((paymentDate === prevPaymentDate && currency === prevCurrency) || formData.value.base_currency_fx_rate !== null) {
       return;
     }
 

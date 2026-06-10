@@ -2,7 +2,7 @@
   <div
     ref="wrapperEl"
     class="erp-tabular-wrapper layout-tabular"
-    :class="{ 'is-loading': isLoading, 'is-empty': showEmpty }"
+    :class="{ 'is-loading': isLoading, 'is-empty': showEmpty, 'is-selectable': selectable }"
     :style="wrapperStyle">
     <template v-if="showEmpty">
       <slot name="empty">
@@ -537,20 +537,20 @@ function onEmptyAction() {
   z-index: 1;
 }
 
-.table-header :deep(tr > th:first-child),
-.erp-tabular-table :deep(.table-row > td:first-child) {
+.erp-tabular-wrapper.is-selectable .table-header :deep(tr > th:first-child),
+.erp-tabular-wrapper.is-selectable .erp-tabular-table :deep(.table-row > td:first-child) {
   position: sticky;
   inset-inline-start: 2px;
   z-index: 2;
   background: var(--v-table-background-color, var(--theme--background));
 }
 
-.erp-tabular-table :deep(.table-row:hover > td:first-child),
-.erp-tabular-table :deep(.table-row.is-selected > td:first-child) {
+.erp-tabular-wrapper.is-selectable .erp-tabular-table :deep(.table-row:hover > td:first-child),
+.erp-tabular-wrapper.is-selectable .erp-tabular-table :deep(.table-row.is-selected > td:first-child) {
   background-color: transparent;
 }
 
-.table-header :deep(tr > th:first-child) {
+.erp-tabular-wrapper.is-selectable .table-header :deep(tr > th:first-child) {
   z-index: 4;
 }
 

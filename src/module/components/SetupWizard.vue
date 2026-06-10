@@ -629,7 +629,8 @@ async function onSave() {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 28px 16px 28px 16px;
 }
 
@@ -661,8 +662,8 @@ async function onSave() {
 
 /* Body */
 .wizard-body {
-  flex: 1;
-  overflow-y: auto;
+  flex: 0 0 auto;
+  overflow: visible;
   padding: 4px 20px 8px;
 }
 

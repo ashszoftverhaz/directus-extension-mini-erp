@@ -62,7 +62,7 @@ export function useEmployeeAddWithUser() {
 
   const requiredFieldsFilled = computed(() => {
     const email = asTrimmedString(userFormData.value.email);
-    const role = extractIdString(userFormData.value.role);
+    const role = userFormData.value.role;
     const first = asTrimmedString(userFormData.value.first_name);
     const last = asTrimmedString(userFormData.value.last_name);
 
@@ -76,7 +76,7 @@ export function useEmployeeAddWithUser() {
       asTrimmedString(compensationAmount) !== '';
     const hasCompType = Boolean(compensationType) || employeeFormData.value?.compensation_type == null;
     const hasEmployeeData = hasCompAmount && hasCompType;
-
+    
     return hasBaseUserData && hasEmployeeData;
   });
 
@@ -101,20 +101,26 @@ export function useEmployeeAddWithUser() {
   async function createOrInviteUser(): Promise<string> {
     const email = asTrimmedString(userFormData.value.email);
     const password = asTrimmedString(userFormData.value.password);
-    const role = extractIdString(userFormData.value.role);
+    let roleId = extractIdString(userFormData.value.role);
     const first_name_raw = asTrimmedString(userFormData.value.first_name);
     const last_name_raw = asTrimmedString(userFormData.value.last_name);
     const first_name = first_name_raw || undefined;
     const last_name = last_name_raw || undefined;
 
     if (password) {
-      const response = await api.post('/users', { email, password, role, first_name, last_name });
+      const response = await api.post('/users', userFormData.value);
       const id = pickIdFromDirectusResponse(response);
       if (!id) throw new Error('User created, but missing id in response.');
       return id;
     }
 
-    const response = await api.post('/users/invite', { email, role });
+    if (!roleId) {
+      const role = await api.post('/roles', userFormData.value.role );
+      const newroleId = pickIdFromDirectusResponse(role);
+      if (!newroleId) throw new Error('User has no role, and role creation failed.');
+      roleId = newroleId;
+    }
+    const response = await api.post('/users/invite', { email, role: roleId });
     let id = pickIdFromDirectusResponse(response);
 
     if (!id) {

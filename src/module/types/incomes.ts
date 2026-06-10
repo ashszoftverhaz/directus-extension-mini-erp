@@ -7,7 +7,7 @@ export interface IncomeListItem {
   payment_date?: string | null;
   currency?: {
     id: string;
-    short_name?: string | null;
+    symbol?: string | null;
   } | null;
   transaction_category?: {
     id: string;

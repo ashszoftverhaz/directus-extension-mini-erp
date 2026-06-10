@@ -8,7 +8,7 @@ export interface TransactionListItem {
   paid_at: string | null;
   name: string;
   amount: number | string;
-  short_name?: string | null;
+  symbol?: string | null;
   type?: ExpenseType | IncomeType | null;
   account_name?: string | null;
 }

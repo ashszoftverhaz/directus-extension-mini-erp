@@ -108,8 +108,8 @@
           </template>
           <template #cell-cost="{ value, item }">
             <span class="value">
-              <template v-if="item.currencyShortName">
-                {{ formatAmount(value) }} {{ item.currencyShortName }}
+              <template v-if="item.currencySymbol">
+                {{ formatAmount(value) }} {{ item.currencySymbol }}
               </template>
               <template v-else>
                 {{ formatAmount(value) }}
@@ -120,7 +120,7 @@
           <template #cell-status="{ item }">
             <IncomeStatusPill
               :payment-due-date="item.payment_due_date"
-              :paid-at="item.paid_at" />
+              :payment-date="item.paid_at" />
           </template>          
 
           <template #cell-type="{ item }">
@@ -209,7 +209,7 @@ const locationDrawerOpen = ref(false);
 
 const transactionsForTable = computed(() =>
   transactions.value.map((transaction: TransactionListItem) => {
-    const currencyShortName = transaction.short_name ?? null;
+    const currencySymbol = transaction.symbol ?? null;
 
     return {
       id: transaction.id,
@@ -219,7 +219,7 @@ const transactionsForTable = computed(() =>
       type: transaction.type ?? null,
       payment_due_date: transaction.payment_due_date ?? null,
       paid_at: transaction.paid_at ?? null,
-      currencyShortName,
+      currencySymbol,
       account: transaction.account_name ?? null,
     };
   }),

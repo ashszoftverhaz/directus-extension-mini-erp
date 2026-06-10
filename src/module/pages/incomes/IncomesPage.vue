@@ -83,17 +83,17 @@
           @row-click="(item) => item?.id && router.push('/erp/incomes/' + item.id)"
           :show-empty="!isLoading && incomesForTable.length === 0"
           empty-text="There are no incomes for the selected location yet or no locations available."
-          empty-action-label="Create Income"
-          :empty-action-disabled="!hasLocations"
+          :empty-action-label="emptyActionLabel"
+          :empty-action-disabled="false"
           @empty-action="openCreate"
           empty-icon="input_circle">
           <template #cell-amount="{ value, item }">
             <span class="value">
-              <template v-if="item.currencyShortName">
-                {{ value }} {{ item.currencyShortName }}
+              <template v-if="item.currencySymbol">
+                {{ formatAmount(value) }} {{ item.currencySymbol }}
               </template>
               <template v-else>
-                {{ value }}
+                {{ formatAmount(value) }}
               </template>
             </span>
           </template>
@@ -208,13 +208,9 @@ const selectedLocation = ref<WashingLocationItem | null>(null);
 ];
 const locationDrawerOpen = ref(false);
 
-const showSelectLocationEmptyState = computed(
-  () => hasLocations.value && selectedLocation.value === null,
-);
-
 const incomesForTable = computed(() =>
-  incomes.value.map((income: IncomeListItem & { currencyShortName?: string | null }) => {
-    const currencyShortName = income.currency?.short_name ?? null;
+  incomes.value.map((income: IncomeListItem) => {
+    const currencySymbol = income.currency?.symbol ?? null;
     const categoryName = income.transaction_category?.name ?? null;
 
     return {
@@ -224,7 +220,7 @@ const incomesForTable = computed(() =>
       category: categoryName,
       payment_due_date: income.payment_due_date ?? null,
       payment_date: income.payment_date ?? null,
-      currencyShortName,
+      currencySymbol,
     };
   }),
 );
@@ -264,15 +260,26 @@ onActivated(() => {
 });
 
 function openCreate() {
+  if (!hasLocations.value) {
+    router.push({
+      path: '/erp',
+      query: { wizard: 'open' },
+    });
+    return;
+  }
+
   if (selectedLocation.value) {
     router.push({
       path: '/erp/incomes/add',
       query: { location: selectedLocation.value.id },
     });
-  } else {
-    router.push('/erp/incomes/add');
   }
 }
+
+const emptyActionLabel = computed(() => {
+  if (!hasLocations.value) return 'Create location first';
+  return 'Create income';
+});
 
 const incomeFields = ['amount', 'status', 'type', 'category', 'payment_due_date'] as const;
 
@@ -333,6 +340,19 @@ const sortModel = computed<{ key: string; order: 'asc' | 'desc' } | null>(() => 
 
 function onSortChange(nextSort: { key: string; order: 'asc' | 'desc' }) {
   sortBy.value = [{ key: nextSort.key, order: nextSort.order }];
+}
+
+function formatAmount(value: unknown): string {
+  const parsedValue =
+    typeof value === 'number'
+      ? value
+      : typeof value === 'string'
+        ? Number(value)
+        : Number.NaN;
+
+  if (!Number.isFinite(parsedValue)) return '-';
+
+  return Math.round(parsedValue).toLocaleString('de-AT');
 }
 </script>
 

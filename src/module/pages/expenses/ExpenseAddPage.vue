@@ -18,8 +18,8 @@
     <template #actions>
       <CreateItemActionsMenu
         :saving="saving"
-        :can-submit="canSubmit"
-        @save-primary="save"
+        :can-submit="canSave"
+        @save-primary="saveAndClose"
         @save-and-stay="saveAndStay"
         @save-and-create-new="saveAndCreateNew"
         @discard-all-changes="discardAllChanges" />
@@ -130,10 +130,22 @@ const financeDetailsSection = computed(() => {
 });
 
 const paymentDetailsSection = computed(() => {  
+  const currencyRateField = fields.value?.find((f) => f.field === 'currency_rate');
+  const readOnlyCurrencyRateField = {
+    ...currencyRateField,
+    meta: {
+      ...currencyRateField?.meta,
+      readonly: true,
+    },
+  };
+
+  const paymentDateField = fields.value?.find((f) => f.field === 'payment_date');
+  const accountField = fields.value?.find((f) => f.field === 'account');
+
   return [
-    ...fields.value?.filter((f) =>
-      ['payment_date', 'currency_rate', 'account'].includes(String(f.field)),
-    ),
+    paymentDateField,
+    readOnlyCurrencyRateField,
+    accountField,
   ];
 });
 
@@ -170,6 +182,14 @@ const {
   saveAndCreateNew,
   discardAllChanges,
 } = useCreateItem(collection, { successMessage: 'Expense saved.' });
+
+const canSave = computed(() => {
+  if (!canSubmit.value) return false;
+  if (!formData.value.payment_date || (formData.value.payment_date && formData.value.currency_rate)) {
+    return true;
+  }
+  return false;
+});
 
 watch(
   () => errorMessage.value || successMessage.value,
@@ -226,8 +246,17 @@ watch(
         formData.value.currency_rate = null;
       }
     }
+    else {
+      formData.value.currency_rate = null;
+    }
   },
 );
+
+async function saveAndClose() {
+  const ok = await save();
+  if (!ok) return;
+  goBack();
+}
 </script>
 
 <style scoped>

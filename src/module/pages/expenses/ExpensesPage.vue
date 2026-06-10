@@ -84,17 +84,17 @@
           @row-click="(row) => openEdit(row.id)"
           :show-empty="!isLoading && expensesForTable.length === 0"
           empty-text="There are no expenses for the selected location yet or no locations available."
-          empty-action-label="Create Expense"
-          :empty-action-disabled="!hasLocations"
+          :empty-action-label="emptyActionLabel"
+          :empty-action-disabled="false"
           @empty-action="openCreate"
           empty-icon="output_circle">
           <template #cell-amount="{ value, item }">
             <span class="value">
-              <template v-if="item.currencyShortName">
-                {{ value }} {{ item.currencyShortName }}
+              <template v-if="item.currencySymbol">
+                {{ formatAmount(value) }} {{ item.currencySymbol }}
               </template>
               <template v-else>
-                {{ value }}
+                {{ formatAmount(value) }}
               </template>
             </span>
           </template>
@@ -202,8 +202,8 @@ const selectedLocation = ref<WashingLocationItem | null>(null);
 const locationDrawerOpen = ref(false);
 
 const expensesForTable = computed(() =>
-  expenses.value.map((expense: ExpenseListItem & { currencyShortName?: string | null }) => {
-    const currencyShortName = expense.currency?.short_name ?? null;
+  expenses.value.map((expense: ExpenseListItem) => {
+    const currencySymbol = expense.currency?.symbol ?? null;
     const categoryName = expense.transaction_category?.name ?? null;
 
     return {
@@ -214,7 +214,7 @@ const expensesForTable = computed(() =>
       category: categoryName,
       payment_due_date: expense.payment_due_date ?? null,
       payment_date: expense.payment_date ?? null,
-      currencyShortName,
+      currencySymbol,
     };
   }),
 );
@@ -321,6 +321,14 @@ function onSortChange(nextSort: { key: string; order: 'asc' | 'desc' }) {
 }
 
 function openCreate() {
+    if (!hasLocations.value) {
+    router.push({
+      path: '/erp',
+      query: { wizard: 'open' },
+    });
+    return;
+  }
+  
   if (!selectedLocation.value) {
     return;
   }
@@ -328,8 +336,26 @@ function openCreate() {
   router.push('/erp/expenses/add/' + selectedLocation.value.id);
 }
 
+const emptyActionLabel = computed(() => {
+  if (!hasLocations.value) return 'Create location first';
+  return 'Create expense';
+});
+
 function openEdit(id: string | number) {
   router.push(`/erp/expenses/${id}`);
+}
+
+function formatAmount(value: unknown): string {
+  const parsedValue =
+    typeof value === 'number'
+      ? value
+      : typeof value === 'string'
+        ? Number(value)
+        : Number.NaN;
+
+  if (!Number.isFinite(parsedValue)) return '-';
+
+  return Math.round(parsedValue).toLocaleString('de-AT');
 }
 </script>
 

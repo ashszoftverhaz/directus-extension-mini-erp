@@ -102,9 +102,10 @@
           @row-click="(item) => item?.id && router.push('/erp/assets/' + item.id)"
           :show-empty="!isLoading && assetsForTable.length === 0"
           empty-text="There are no assets for the selected location yet or no locations available."
-          empty-action-label=""
-          :empty-action-disabled="true"
-          empty-icon="service_toolbox">
+          :empty-action-disabled="hasLocations"
+          empty-icon="service_toolbox"
+          empty-action-label="Create a location first"
+          @empty-action="openWizard">
           <template #cell-name="{ value }">
             <span class="value">{{ value ?? '-' }}</span>
           </template>
@@ -218,7 +219,7 @@ const assetsForTable = computed(() =>
     const categoryName = asset.asset_category?.asset_category_name ?? null;
 
     let assigneeDisplay: string | null = null;
-    if (asset.assignment === 'employee' && asset.assignee_employee) {
+    if (asset.assignee_employee) {
       const first = asset.assignee_employee.account?.first_name ?? '';
       const last = asset.assignee_employee.account?.last_name ?? '';
       const name = `${first} ${last}`.trim();
@@ -284,7 +285,12 @@ function onSale() {
   router.push('/erp/assets/sale/' + selectedLocation.value.id);
 }
 
-const assetFields = ['name', 'code', 'asset_category', 'assignment', 'assignee'] as const;
+const assetFields = computed(() => {
+  const hasAssignment = assets.value.some((asset: AssetListItem) => asset.assignment != null);
+  return hasAssignment
+    ? ['name', 'code', 'asset_category', 'assignment', 'assignee']
+    : ['name', 'code', 'asset_category', 'assignee'];
+});
 
 const assetColumnOverrides = {
   name: { width: 'minmax(240px, 2fr)', label: 'Name' },
@@ -343,6 +349,13 @@ const sortModel = computed<{ key: string; order: 'asc' | 'desc' } | null>(() => 
 
 function onSortChange(nextSort: { key: string; order: 'asc' | 'desc' }) {
   sortBy.value = [{ key: nextSort.key, order: nextSort.order }];
+}
+
+function openWizard() {
+  router.push({
+    path: '/erp',
+    query: { wizard: 'open' },
+  });  
 }
 </script>
 

@@ -26,7 +26,7 @@ It can be adapted to different business models, internal processes, and operatio
 npm install @ashszoftverhaz/directus-extension-mini-erp
 ```
 
-Or copy the `dist` folder to your Directus extensions directory:
+And copy the `dist` folder and package.json file to your Directus extensions directory:
 ```
 extensions/directus-extension-mini-erp/
 ├── dist/

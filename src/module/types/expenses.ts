@@ -3,7 +3,7 @@ export interface ExpenseListItem {
   name: string;
   amount: number | string;
   currency?: {
-    short_name?: string | null;
+    symbol?: string | null;
   } | null;
   expense_type?: 'operational_cost' | 'asset' | 'inventory_change' | 'employee' | string | null;
   payment_due_date?: string | null;

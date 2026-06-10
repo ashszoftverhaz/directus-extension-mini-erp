@@ -107,7 +107,7 @@ const pushEmployeeNotifications = async (context: JobContext, expiringLicenses: 
     const baseUrl = context.env?.PUBLIC_URL;
     if (!baseUrl) {
         context.logger.warn(
-            "[ERP licence expiration notification scheduled event] PUBLIC_URL is not defined in environment variables.",
+            "[ERP licence expiration notification scheduled event] DIRECTUS_PUBLIC_URL is not defined in environment variables.",
         );
         return;
     }

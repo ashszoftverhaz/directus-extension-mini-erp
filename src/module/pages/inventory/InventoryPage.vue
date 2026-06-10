@@ -135,8 +135,10 @@
           @sort-change="onSortChange"
           :show-empty="!isLoading && inventoryItems.length === 0"
           empty-text="There are no available materials to show."
-          empty-action-label=""
-          :empty-action-disabled="true">
+          empty-action-label="Create a location first"
+          :empty-action-disabled="hasLocations"
+          @empty-action="openWizard"
+          empty-icon="inventory">
           <template #cell-name_of_product="{ value }">
             <span class="value">{{ value ?? '—' }}</span>
           </template>
@@ -427,6 +429,13 @@ const sortModel = computed<{ key: string; order: 'asc' | 'desc' } | null>(() => 
 
 function onSortChange(next: { key: string; order: 'asc' | 'desc' }) {
   sortBy.value = [{ key: next.key, order: next.order }];
+}
+
+function openWizard() {
+  router.push({
+    path: '/erp',
+    query: { wizard: 'open' },
+  });  
 }
 </script>
 

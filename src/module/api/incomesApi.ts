@@ -16,7 +16,7 @@ export async function getIncomes(
     'payment_due_date',
     'payment_date',
     'currency.id',
-    'currency.short_name',
+    'currency.symbol',
     'transaction_category.id',
     'transaction_category.name',
     'location.id',

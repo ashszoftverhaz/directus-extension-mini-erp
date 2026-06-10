@@ -362,7 +362,7 @@ watch(() => route.params.id, loadItem);
 watch(
   () => [formData.value.payment_date, formData.value.currency],
   async ([paymentDate, currency], [prevPaymentDate, prevCurrency]) => {
-    if (paymentDate === prevPaymentDate && currency === prevCurrency) {
+    if ((paymentDate === prevPaymentDate && currency === prevCurrency) || formData.value.currency_rate !== null) {
       return;
     }
 

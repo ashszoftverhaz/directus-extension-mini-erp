@@ -19,7 +19,7 @@ export async function getExpenses(
     'transaction_category.name',
     'location.id',
     'location.name',
-    'currency.short_name',
+    'currency.symbol',
   ];
 
   const response = await api.get<DirectusItemsResponse<ExpenseListItem[]>>('/items/expenses', {

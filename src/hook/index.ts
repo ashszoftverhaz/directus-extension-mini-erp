@@ -462,6 +462,8 @@ export default defineHook(({ init, schedule, filter, action }, context: any) => 
   });
 
   action('inventory_changes.items.create', async (meta) => {
+    if (meta?.payload?.inventory_change_type === 'usage') return;
+
     const schema = await context.getSchema({ database: context.database });
     const { ItemsService } = context.services;
     const expenseService = new ItemsService(

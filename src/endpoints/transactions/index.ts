@@ -8,7 +8,7 @@ const incomeFields = [
   'incomes.amount as amount',
   'incomes.payment_due_date as payment_due_date',
   'incomes.payment_date as paid_at',
-  'currencies.short_name',
+  'currencies.symbol',
   'incomes.income_type as type',
   'accounts.account_name',
 ];
@@ -19,7 +19,7 @@ const expenseFields = [
   'expenses.amount as amount',
   'expenses.payment_due_date as payment_due_date',
   'expenses.payment_date as paid_at',
-  'currencies.short_name',
+  'currencies.symbol',
   'expenses.expense_type as type',
   'accounts.account_name',
 ];

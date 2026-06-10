@@ -14,7 +14,7 @@
         >
           {{ actionLabel }}
         </a>
-        <VButton v-else class="align-center normal" :disabled="actionDisabled" @click="onAction">
+        <VButton v-else-if="!actionDisabled" class="align-center normal" :disabled="actionDisabled" @click="onAction">
           {{ actionLabel }}
         </VButton>
       </div>
