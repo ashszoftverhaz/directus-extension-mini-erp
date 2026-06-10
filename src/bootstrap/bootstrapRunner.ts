@@ -27,6 +27,7 @@ import { bootstrapExpenses } from './expenses/expensesBootstrap';
 import { bootstrapBaseSettings } from './base_settings/baseSettingsBootstrap';
 import { bootstrapAccounts } from './accounts/accountsBootstrap';
 import { bootstrapCollectionGroups } from './collection_groups/collectionGroupsBootstrap';
+import { bootstrapVersionStatus } from './version_status/versionStatusBootstrap';
 
 let runningBootstrap: Promise<void> | null = null;
 
@@ -107,6 +108,7 @@ export async function runErpBootstrap(context: BootstrapContext): Promise<void> 
     );
 
     await bootstrapBaseSettings(context);
+    await bootstrapVersionStatus(context);
 
     await bootstrapErpPolicy(context, franchiseCollectionExists, washingLocationExists);
 

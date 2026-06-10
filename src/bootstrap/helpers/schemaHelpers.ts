@@ -61,6 +61,27 @@ export function createIntField(
   };
 }
 
+export function createBigIntegerField(
+  field: string,
+  label: string,
+  isRequired: boolean,
+  sort: number,
+  width: 'half' | 'full' = 'full',
+): any {
+  return {
+    field,
+    type: 'bigInteger',
+    schema: { is_nullable: !isRequired },
+    meta: {
+      interface: 'input',
+      required: isRequired,
+      note: label,
+      sort,
+      width,
+    },
+  };
+}
+
 export function createDecimalField(
   field: string,
   label: string,
