@@ -191,7 +191,7 @@ const props = withDefaults(
     disabled: false,
     sort: null,
     minResizableWidth: 120,
-    selectColumnWidth: '36px',
+    selectColumnWidth: '52px',
     spacerColumnWidth: '1fr',
     defaultColumnWidth: 'minmax(160px, 1fr)',
     defaultSortable: true,
@@ -457,7 +457,8 @@ function onEmptyAction() {
   border-block-end: var(--theme--border-width) solid var(--theme--border-color-subdued);
 }
 
-.table-header :deep(th:not(.spacer):not(.select))::after {
+.table-header :deep(th:not(.spacer):not(.select):not(:la
+st-child))::after {
   content: '';
   position: absolute;
   inset-block: var(--v-table-header-divider-inset, 10px);
@@ -547,7 +548,7 @@ function onEmptyAction() {
 
 .erp-tabular-wrapper.is-selectable .erp-tabular-table :deep(.table-row:hover > td:first-child),
 .erp-tabular-wrapper.is-selectable .erp-tabular-table :deep(.table-row.is-selected > td:first-child) {
-  background-color: transparent;
+  background-color: var(--theme--background-subdued);
 }
 
 .erp-tabular-wrapper.is-selectable .table-header :deep(tr > th:first-child) {
@@ -561,6 +562,11 @@ function onEmptyAction() {
 .erp-tabular-table :deep(.manual.cell),
 .erp-tabular-table :deep(.select.cell) {
   text-align: center;
+}
+
+.erp-tabular-table :deep(th.select.cell),
+.erp-tabular-table :deep(td.select.cell) {
+  padding-inline: 16px;
 }
 
 .erp-tabular-table :deep(.manual.cell .v-icon),
